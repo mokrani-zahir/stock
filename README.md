@@ -8,6 +8,8 @@ Prérequis
  - PHP 8.1 ou plus
  - Dirve sqlite (Windows posed nativemente) 
 
+Il faut accéder au répertoir de projet est execute cet command pour lance le serveur
+
 ``` cmd
 php artisan serve
 ```
@@ -26,7 +28,7 @@ execute cet command dant terminal (CMD pour windows)
 php -v
 ```
 
-si vous avez ce resulta bien ou telecharger php et install sur votre machin
+Si vous avez ce résultat, c'est bien. Sinon, téléchargez PHP et installez-le sur votre machine.
 
 ```
 $php -v
@@ -35,8 +37,6 @@ Copyright (c) The PHP Group
 Zend Engine v4.3.6, Copyright (c) Zend Technologies
 with Zend OPcache v8.3.6, Copyright (c), by Zend Technologies
 ```
-
-
 
 ## License
 
