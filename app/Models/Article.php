@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Article extends Model
 {
     use HasFactory;
+    protected $guarded = ['created_at','udated_at','id'];
 
-    protected $fillable = ['code','codeBar','nom','quantity','prix','valeur'];
 }

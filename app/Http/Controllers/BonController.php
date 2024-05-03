@@ -8,17 +8,30 @@ use App\Models\Bon;
 use App\Models\Fournisseur;
 use Illuminate\Http\Request;
 
-class TestController extends Controller
-{
 
-    public function bon()
+class BonController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        return view('test.form');
+        return view("test.form");
     }
 
-    public function request(BonFilterRequest $request)
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
     {
+        return view("test.form");
+    }
 
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(BonFilterRequest $request)
+    {
         $dataRequest = $request->validated();
 
         $fournisseurRequest = $dataRequest['fournisseur'];
@@ -43,25 +56,25 @@ class TestController extends Controller
             //Si le article n'exist pas en va enregister le nouveau article
             if (!$article) {
                 //echo("creer un nouveau articles avec le code " . $value['code']);
-                $artcile = Article::create([
+                $articles[$key] = Article::create([
                     "nom" => $value['nom'],
                     "code" => $value['code'],
                     "prix" => "0",
                     "quantity" => "0"
                 ]);
+
+            }else{
+                $articles[$key] = $article;
             }
 
-            $articles[$key] = $article;
+
         }
 
-
         foreach ($articles as $key => $article) {
-
-
             //Calculer CMP
             $cmp = ($article->prix + $articlesRequest[$key]['prix']*$articlesRequest[$key]['quantity']) / ($article->quantity + $articlesRequest[$key]['quantity']);
 
-            $fournisseur->article()->attach($article,[
+            $debug = $fournisseur->article()->attach($article,[
                 'type' => $bonRequest['type'],
                 'prix' => $articlesRequest[$key]['prix'],
                 'quantity' => $articlesRequest[$key]['quantity'],
@@ -80,13 +93,35 @@ class TestController extends Controller
         return redirect()->back()->with('success', 'le bon est bien ajoute à base de données');
     }
 
-    public function searchF()
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
     {
-        return Fournisseur::all();
+        //
     }
 
-    public function searchA()
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
     {
-        return Article::all();
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
     }
 }

@@ -13,6 +13,12 @@
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="{{ \route('mouvement') }}">Mouvement</a>
                 </li>
+                @auth
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/logout">Déconnecter</a>
+                </li>
+                @endauth
+
             </ul>
         </div>
     </div>

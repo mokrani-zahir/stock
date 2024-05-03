@@ -14,7 +14,8 @@
         <th scope="col">Date</th>
         <th scope="col">Quantity</th>
         <th scope="col">Prix/CMP</th>
-        <th scope="col">Fournisseur</th>
+        <th scope="col">Fournisseur/client</th>
+        <th scope="col">Numéro de bon</th>
       </tr>
     </thead>
     <tbody>
@@ -26,6 +27,7 @@
         <td>{{$article['quantity']}}</td>
         <td>{{$article['valeur']}}</td>
         <td>{{$article['fournisseur']}}</td>
+        <td>{{$article['bon']}}</td>
       </tr>
       @endforeach
     </tbody>

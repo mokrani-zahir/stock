@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\BonController;
 use App\Http\Controllers\MouvementController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,14 +17,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//->middleware('auth');
+
 Route::get('/', function () {
     return view('index');
 });
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/bon',[BonController::class,'create'])->name('bon');
+    Route::post('/bon',[BonController::class,'store']);
+    Route::get('/mouvement',[MouvementController::class,'index'])->name('mouvement');
+    Route::get('/logout',[AuthController::class,'logout']);
+});
+
 Route::get('/test',[TestController::class,'index'])->name('index');
-Route::get('/bon',[TestController::class,'bon'])->name('bon');
-Route::post('/request',[TestController::class,'request']);
-Route::get('/mouvement',[MouvementController::class,'index'])->name('mouvement');
+
+Route::get('/login',[AuthController::class,'index'])->name('login');
+Route::post('/login',[AuthController::class,'login']);
 // Route::post('/search',[TestController::class,'searchF']);
 
 

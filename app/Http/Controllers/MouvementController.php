@@ -17,7 +17,7 @@ class MouvementController extends Controller
             $listArticle[$key]['quantity'] = $article->quantity;
             $listArticle[$key]['valeur'] = $article->valeur;
             $listArticle[$key]['fournisseur'] = $article->fournisseur->nom;
-            
+            $listArticle[$key]['bon'] = $article->numero_bon;
         }
 
         return view('mouvement',['articles'=>$listArticle]);

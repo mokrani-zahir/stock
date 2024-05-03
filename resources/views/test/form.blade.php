@@ -32,7 +32,7 @@
             </ul>
         </div>
     @endif
-    <form method="post" action="request">
+    <form method="post">
         @csrf
 
         <fieldset class="border p-4 mb-4">
@@ -45,9 +45,9 @@
 
                 <div class="input-group ">
                     <select class="form-select" aria-label="Default select example" name="bon[type]">
-                        <option value="entre">entre</option>
+                        <option value="entre">Entre</option>
                         <option value="sorte">Sorte</option>
-                        <option value="Retour">Retour</option>
+                        <option value="retour">Retour</option>
                       </select>
                 </div>
             </div>
