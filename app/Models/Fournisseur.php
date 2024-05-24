@@ -10,7 +10,7 @@ class Fournisseur extends Model
     use HasFactory;
 
     public function article(){
-        return $this->belongsToMany(Article::class)->withPivot('type', 'prix', 'quantity', 'valeur', 'numero_bon','date');
+        return $this->belongsToMany(Article::class)->withPivot('type', 'prix', 'quantity', 'numero_bon','date','value');
     }
 
     protected $guarded = ['created_at','udated_at','id'];

@@ -32,6 +32,8 @@ class BonController extends Controller
      */
     public function store(BonFilterRequest $request)
     {
+
+
         $dataRequest = $request->validated();
 
         $fournisseurRequest = $dataRequest['fournisseur'];
@@ -52,16 +54,30 @@ class BonController extends Controller
 
             $article = Article::where('code', $value['code'])->first();
 
+            if($bonRequest['type']=="sorte"){
+                if(!$article){
+                    return redirect()->back()->with('error', 'L\'article '.$value['nom'].' n\'exist pas');
+                }
+
+                if($article->quantity < $value['quantity']){
+                    return redirect()->back()->with('error', 'pour l\'article <b>'.$value['nom'].'</b> vous ne pouvez pas dépasser : '.$article->quantity);
+                }
+
+
+            }
 
             //Si le article n'exist pas en va enregister le nouveau article
             if (!$article) {
-                //echo("creer un nouveau articles avec le code " . $value['code']);
-                $articles[$key] = Article::create([
-                    "nom" => $value['nom'],
-                    "code" => $value['code'],
-                    "prix" => "0",
-                    "quantity" => "0"
-                ]);
+
+
+                $articleCreate = new Article;
+                $articleCreate->nom = $value['nom'];
+                $articleCreate->code = $value['code'];
+                $articleCreate->prix = 0;
+                $articleCreate->quantity = 0;
+                $articleCreate->save();
+
+                $articles[$key] = $articleCreate;
 
             }else{
                 $articles[$key] = $article;
@@ -72,20 +88,42 @@ class BonController extends Controller
 
         foreach ($articles as $key => $article) {
             //Calculer CMP
-            $cmp = ($article->prix + $articlesRequest[$key]['prix']*$articlesRequest[$key]['quantity']) / ($article->quantity + $articlesRequest[$key]['quantity']);
+            // $cmp = $articlesRequest[$key]['prix'];
+            // $quantityTotal = $article->quantity + $articlesRequest[$key]['quantity'];
+
+            if($bonRequest['type']=='entre'){
+                $valueInit = $article->prix * $article->quantity;
+                $valueRequest = (int) $articlesRequest[$key]['prix'] * (int) $articlesRequest[$key]['quantity'];
+                $quantityTotal = $article->quantity + (int) $articlesRequest[$key]['quantity'];
+                $cmp = ($valueInit+$valueRequest)/$quantityTotal;
+            }else if($bonRequest['type']=='sorte'){
+                $valueInit = $article->prix * $article->quantity;
+                $valueRequest = $article->prix * (int) $articlesRequest[$key]['quantity'];
+                $quantityTotal = $article->quantity - (int) $articlesRequest[$key]['quantity'];
+                $cmp = ($valueInit-$valueRequest)/$quantityTotal;
+            }else if($bonRequest['type']=='retour'){
+                $valueInit = $article->prix * $article->quantity;
+                $valueRequest = $article->prix * (int) $articlesRequest[$key]['quantity'];
+                $quantityTotal = $article->quantity + (int) $articlesRequest[$key]['quantity'];
+                $cmp = ($valueInit+$valueRequest)/$quantityTotal;
+            }else{
+                return redirect()->back()->with('error', 'What');
+            }
+
 
             $debug = $fournisseur->article()->attach($article,[
                 'type' => $bonRequest['type'],
-                'prix' => $articlesRequest[$key]['prix'],
+                'cmp' => $cmp,
+                'prix' => ($articlesRequest[$key]['prix'] == "CMP") ? $cmp : $articlesRequest[$key]['prix'],
                 'quantity' => $articlesRequest[$key]['quantity'],
-                'valeur' => $cmp,
                 'numero_bon' => $bonRequest['numero'],
-                'date' => $bonRequest['date']
+                'date' => $bonRequest['date'],
+                'value' => $cmp * $articlesRequest[$key]['quantity']
             ]);
 
             $article->update([
                 "prix"=> $cmp,
-                "quantity"=> $article->quantity + $articlesRequest[$key]['quantity']
+                "quantity"=> $quantityTotal
             ]);
 
         }

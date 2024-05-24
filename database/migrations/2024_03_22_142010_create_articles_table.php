@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string("nom");
             $table->integer("prix")->default(0);
             $table->integer("quantity")->default(0);
-            $table->integer("valeur")->default(0);
             $table->timestamps();
         });
 

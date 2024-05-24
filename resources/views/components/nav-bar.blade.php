@@ -13,6 +13,11 @@
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="{{ \route('mouvement') }}">Mouvement</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{{ \route('inventaire') }}">Fiche de stock</a>
+                </li>
+
                 @auth
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/logout">Déconnecter</a>

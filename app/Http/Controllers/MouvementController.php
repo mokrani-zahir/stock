@@ -15,7 +15,7 @@ class MouvementController extends Controller
             $listArticle[$key]['type'] = $article->type;
             $listArticle[$key]['date'] = $article->date;
             $listArticle[$key]['quantity'] = $article->quantity;
-            $listArticle[$key]['valeur'] = $article->valeur;
+            $listArticle[$key]['valeur'] = $article->prix;
             $listArticle[$key]['fournisseur'] = $article->fournisseur->nom;
             $listArticle[$key]['bon'] = $article->numero_bon;
         }

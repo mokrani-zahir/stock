@@ -17,8 +17,9 @@ return new class extends Migration
             $table->foreignIdFor(\App\Models\Fournisseur::class);
             $table->integer("type");
             $table->integer("prix");
+            $table->integer("cmp")->default('0');
             $table->integer("quantity");
-            $table->integer("valeur");
+            $table->integer("value");
             $table->integer("numero_bon");
             $table->integer("date");
         });

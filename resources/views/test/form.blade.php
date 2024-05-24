@@ -32,6 +32,14 @@
             </ul>
         </div>
     @endif
+
+    @if (\Session::has('error'))
+        <div class="alert alert-danger">
+            <ul>
+                <li>{!! \Session::get('error') !!}</li>
+            </ul>
+        </div>
+    @endif
     <form method="post">
         @csrf
 
@@ -44,7 +52,7 @@
                     value="{{ $numeroBom }}" spanLeft="bi bi-upc" />
 
                 <div class="input-group ">
-                    <select class="form-select" aria-label="Default select example" name="bon[type]">
+                    <select class="form-select" aria-label="Default select example" name="bon[type]" id="operation">
                         <option value="entre">Entre</option>
                         <option value="sorte">Sorte</option>
                         <option value="retour">Retour</option>

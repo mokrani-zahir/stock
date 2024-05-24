@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\Inventaire;
 use App\Http\Controllers\BonController;
 use App\Http\Controllers\MouvementController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Inventairev2Controller;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +30,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/bon',[BonController::class,'store']);
     Route::get('/mouvement',[MouvementController::class,'index'])->name('mouvement');
     Route::get('/logout',[AuthController::class,'logout']);
+    Route::get('/inventaire',[Inventaire::class,'index'])->name('inventaire');
+    Route::get('/inventairev2',[Inventairev2Controller::class,'index'])->name('inventairev2');
 });
 
 Route::get('/test',[TestController::class,'index'])->name('index');
